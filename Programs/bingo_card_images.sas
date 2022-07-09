@@ -42,7 +42,6 @@ data bingo (drop = items);
 
    /* create the full file name including path and extension */
    bingo_item = cats("&path.\Images\Final\", english, ".png");
-   bingo_text = strip(english);
 run;
 libname bingo clear;
 /************************************************************************/
@@ -64,9 +63,8 @@ libname bingo clear;
                      layout overlay / xaxisopts = (display = NONE griddisplay = OFF)
                                       yaxisopts = (display = NONE griddisplay = OFF);
                         textplot x = xval y = yval
-                                 text = bingo_text / display = (fill) pad = 0
+                                 text = english    / display = (fill) pad = 0
                                                      fillattrs = (color = white)
-                                                     backlight = 0  CONTRIBUTEOFFSETS = NONE
                                                      textattrs = (family = "&font"
                                                                   weight = bold
                                                                   color = white
