@@ -17,7 +17,7 @@ Modifier:
 /**************************************************************************/
 /*** BEGIN SECTION TO INITIALIZE ALL MACRO VARIABLES AND DEFINE FORMATS ***/
 /**************************************************************************/
-%let path = C:\Users\gonza\Desktop\Conferences\All Papers and Presentations\Boredom Buster Bingo - Conference Call Bingo;
+%let path = C:\Users\gonza\Desktop\GitHub\SASsy_Bingo;
 %let hdrimg = bbb_resized_v2.png;
 %let bingo_file = Conference Call Bingo.xlsx;
 %let bingo_sheet = Bingo;
@@ -37,7 +37,7 @@ ods path(prepend) work.TEMPLAT (update);
 /*** BEGIN SECTION TO READ IN AND RANDOMLY SELECT TEXT FOR BINGO CARDS  ***/
 /**************************************************************************/
 /* read in the list of bingo text options */
-libname bingo xlsx "&path.\&bingo_file";
+libname bingo xlsx "&path.\Programs\&bingo_file";
 data bingo (drop = things_you_hear_or_see_on_a_call);
    set bingo."&bingo_sheet"n;
 
@@ -199,7 +199,7 @@ run;
       /* render each bingo card */
       options nodate nonumber;
       ods graphics on / width = 6.5in height = 7in;
-      ods &ext file = "&path.\card\&bingo_card._&i._m7.&ext"
+      ods &ext file = "&path.\cards\&bingo_card._&i._m7.&ext"
               %if &ext = pdf %then dpi ; %else image_dpi; = 300;
 
       ods escapechar = "^";
