@@ -21,7 +21,7 @@ Modifier:
 %let hdrimg = loteria_banner.png;
 %let bingo_file = Loteria Words for Bingo.xlsx;
 %let bingo_sheet = items;
-%let font = 'Arial';
+%let font = 'AMT Albany';
 
 %let bingo_card = Loteria;
 
@@ -36,7 +36,7 @@ ods path(prepend) work.TEMPLAT (update);
 /**************************************************************************/
 /* read in the list of bingo text options */
 libname bingo xlsx "&path.\Programs\&bingo_file";
-data bingo (drop = items);
+data bingo;
    set bingo."&bingo_sheet"n;
    where status = 'done';
 
@@ -49,7 +49,7 @@ libname bingo clear;
 /************************************************************************/
 
 /**************************************************************************/
-/*** BEGIN SECTION TO DEFINE GRAPH TEMPLATE AND GENERATE BINGO CARDS    ***/
+/*** BEGIN SECTION TO DEFINE GRAPH TEMPLATE FOR BINGO CARDS WITH IMAGES ***/
 /**************************************************************************/
 %macro crtcard;
    proc template;
@@ -62,13 +62,7 @@ libname bingo clear;
                   %do col = 1 %to 5;
                      layout overlay / xaxisopts = (display = NONE griddisplay = OFF)
                                       yaxisopts = (display = NONE griddisplay = OFF);
-                        textplot x = xval y = yval
-                                 text = english    / display = (fill) pad = 0
-                                                     fillattrs = (color = white)
-                                                     textattrs = (family = "&font"
-                                                                  weight = bold
-                                                                  color = white
-                                                                  size = 6pt);
+                        textplot x = xval y = yval text = english;
 
                         annotate / id = "IMG_&row._&col";
                      endlayout;
@@ -82,7 +76,7 @@ libname bingo clear;
 
 %crtcard
 /************************************************************************/
-/*** END SECTION TO DEFINE GRAPH TEMPLATE AND GENERATE BINGO CARDS    ***/
+/*** END SECTION TO DEFINE GRAPH TEMPLATE FOR BINGO CARDS WITH IMAGES ***/
 /************************************************************************/
 
 /**************************************************************************/
@@ -124,11 +118,11 @@ libname bingo clear;
       data anno (keep = id drawspace function image layer height: image:);
           set bingo&i.;
           id = catx('_', 'IMG', rownum, colnum);
-          drawspace = 'dataspace';
+          drawspace = 'datavalue';
           function = 'image';
           image = bingo_item;
           layer = 'front';
-          height = 80;
+          height = 96;
           heightunit = "PIXEL";
           imagescale = 'FIT';
       run;

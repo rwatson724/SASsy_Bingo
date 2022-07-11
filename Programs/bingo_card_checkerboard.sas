@@ -23,7 +23,7 @@ Modifier:
 %let bingo_sheet = Bingo;
 %let font = 'AMT Albany';
 
-%let bingo_card = MyBingoCard_checkerboard;
+%let bingo_card = MyBingoCard_checkerboard;  /*** prefix used to name the bingo card ***/
 %let textlen = 15;
 %let splitchr = ^;
 
@@ -57,9 +57,9 @@ quit;
 /*** END SECTION TO READ IN AND RANDOMLY SELECT TEXT FOR BINGO CARDS  ***/
 /************************************************************************/
 
-/**************************************************************************/
-/*** BEGIN SECTION TO DEFINE GRAPH TEMPLATE AND GENERATE BINGO CARDS    ***/
-/**************************************************************************/
+/***************************************************************************/
+/*** BEGIN SECTION TO DEFINE GRAPH TEMPLATE FOR CHECKERBOARD BINGO CARDS ***/
+/***************************************************************************/
 proc template;
    define statgraph bingo_ck;
       begingraph / border = false backgroundcolor = bgr;
@@ -84,9 +84,9 @@ proc template;
       endgraph;
    end;
 run;
-/************************************************************************/
-/*** END SECTION TO DEFINE GRAPH TEMPLATE AND GENERATE BINGO CARDS    ***/
-/************************************************************************/
+/*************************************************************************/
+/*** END SECTION TO DEFINE GRAPH TEMPLATE FOR CHECKERBOARD BINGO CARDS ***/
+/*************************************************************************/
 
 /******************************************************************************/
 /*** BEGIN SECTION TO CREATE AN ATTRIBUTE MAP TO MAKE TEXT DIFFERENT COLORS ***/

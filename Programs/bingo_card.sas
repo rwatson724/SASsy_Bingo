@@ -23,7 +23,7 @@ Modifier:
 %let bingo_sheet = Bingo;
 %let font = 'AMT Albany';
 
-%let bingo_card = MyBingoCard;
+%let bingo_card = MyBingoCard;  /*** prefix used to name the bingo card ***/
 %let textlen = 15;
 %let splitchr = ^;
 
@@ -34,7 +34,7 @@ ods path(prepend) work.TEMPLAT (update);
 /************************************************************************/
 
 /**************************************************************************/
-/*** BEGIN SECTION TO READ IN AND RANDOMLY SELECT TEXT FOR BINGO CARDS  ***/
+/*** BEGIN SECTION TO READ IN DATA USED FOR RANDOM SELECTION FOR CARDS  ***/
 /**************************************************************************/
 /* read in the list of bingo text options */
 libname bingo xlsx "&path.\Programs\&bingo_file";
@@ -54,12 +54,12 @@ proc sql noprint;
    from bingo;
 quit;
 /************************************************************************/
-/*** END SECTION TO READ IN AND RANDOMLY SELECT TEXT FOR BINGO CARDS  ***/
+/*** END SECTION TO READ IN DATA USED FOR RANDOM SELECTION FOR CARDS  ***/
 /************************************************************************/
 
-/**************************************************************************/
-/*** BEGIN SECTION TO DEFINE GRAPH TEMPLATE AND GENERATE BINGO CARDS    ***/
-/**************************************************************************/
+/************************************************************************/
+/*** BEGIN SECTION TO DEFINE GRAPH TEMPLATE FOR BINGO CARDS WITH TEXT ***/
+/************************************************************************/
 proc template;
    define statgraph bingo;
       begingraph / border = false backgroundcolor = bgr;
@@ -83,9 +83,9 @@ proc template;
       endgraph;
    end;
 run;
-/************************************************************************/
-/*** END SECTION TO DEFINE GRAPH TEMPLATE AND GENERATE BINGO CARDS    ***/
-/************************************************************************/
+/**********************************************************************/
+/*** END SECTION TO DEFINE GRAPH TEMPLATE FOR BINGO CARDS WITH TEXT ***/
+/**********************************************************************/
 
 /******************************************************************************/
 /*** BEGIN SECTION TO CREATE AN ATTRIBUTE MAP TO MAKE TEXT DIFFERENT COLORS ***/
