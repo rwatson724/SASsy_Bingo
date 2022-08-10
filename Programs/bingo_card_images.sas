@@ -35,15 +35,15 @@ ods path(prepend) work.TEMPLAT (update);
 /*** BEGIN SECTION TO READ IN AND RANDOMLY SELECT TEXT FOR BINGO CARDS  ***/
 /**************************************************************************/
 /* read in the list of bingo text options */
-libname bingo xlsx "&path.\Programs\&bingo_file";
+libname bingoxls xlsx "&path.\Data\&bingo_file";
 data bingo;
-   set bingo."&bingo_sheet"n;
+   set bingoxls."&bingo_sheet"n;
    where status = 'done';
 
    /* create the full file name including path and extension */
    bingo_item = cats("&path.\Images\Final\", english, ".png");
 run;
-libname bingo clear;
+libname bingoxls clear;
 /************************************************************************/
 /*** END SECTION TO READ IN AND RANDOMLY SELECT TEXT FOR BINGO CARDS  ***/
 /************************************************************************/
