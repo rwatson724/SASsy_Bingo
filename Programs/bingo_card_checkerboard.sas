@@ -1,6 +1,6 @@
 /****************************************************************************************
 Program:          bingo_card.sas
-SAS Version:      SAS 9.4m5
+SAS Version:      SAS 9.4m7
 Developer:        Richann Watson 
 Date:             2021 
 Operating Sys:    Windows 10
@@ -29,6 +29,7 @@ Modifier:
 
 options validvarname = v7;
 ods path(prepend) work.TEMPLAT (update);
+libname BINGO 'C:\Users\gonza\Desktop\GitHub\SASsy_Bingo\Data';
 /************************************************************************/
 /*** END SECTION TO INITIALIZE ALL MACRO VARIABLES AND DEFINE FORMATS ***/
 /************************************************************************/
@@ -37,16 +38,16 @@ ods path(prepend) work.TEMPLAT (update);
 /*** BEGIN SECTION TO READ IN AND RANDOMLY SELECT TEXT FOR BINGO CARDS  ***/
 /**************************************************************************/
 /* read in the list of bingo text options */
-libname bingo xlsx "&path.\Programs\&bingo_file";
+libname bingoxls xlsx "&path.\Data\&bingo_file";
 data bingo (drop = things_you_hear_or_see_on_a_call);
-   set bingo."&bingo_sheet"n;
+   set bingoxls."&bingo_sheet"n;
 
    /* format the text so it will display accurately */
    bingo_text = strip(things_you_hear_or_see_on_a_call);
 
    bt_len = length(bingo_text);
 run;
-libname bingo clear;
+libname bingoxls clear;
 
 /* determine the number of possible splits based on the max length of all values */
 proc sql noprint;
@@ -87,24 +88,6 @@ run;
 /*************************************************************************/
 /*** END SECTION TO DEFINE GRAPH TEMPLATE FOR CHECKERBOARD BINGO CARDS ***/
 /*************************************************************************/
-
-/******************************************************************************/
-/*** BEGIN SECTION TO CREATE AN ATTRIBUTE MAP TO MAKE TEXT DIFFERENT COLORS ***/
-/******************************************************************************/
-data textclr (drop = i);
-   ID = 'TXTCLR';
-   array clrs(2) $20 _TEMPORARY_ ('lightpink' 'black');
-   do i = 1 to 2;
-      VALUE = cats(i);
-      TEXTCOLOR = clrs(i);
-      if i = 1 then FILLCOLOR = clrs(i+1);
-      else if i = 2 then FILLCOLOR = clrs(1);
-      output;
-   end;
-run;
-/****************************************************************************/
-/*** END SECTION TO CREATE AN ATTRIBUTE MAP TO MAKE TEXT DIFFERENT COLORS ***/
-/****************************************************************************/
 
 /**************************************************************************/
 /*** BEGIN SECTION TO SELECT TEXT FOR BINGO CARDS AND RENDER BINGO CARDS***/
@@ -206,8 +189,8 @@ run;
       title "^S = {preimage=""&path.\images\&hdrimg"" }";
 
       proc sgrender data = bingo&i. template = bingo_ck
-                dattrmap = textclr;
-         dattrvar grp = 'TXTCLR';
+                dattrmap = BINGO.BINGOATTR;
+         dattrvar grp = 'TXTCLRC';
       run;
       ods &ext close;
    %end;

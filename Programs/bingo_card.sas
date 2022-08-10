@@ -29,6 +29,7 @@ Modifier:
 
 options validvarname = v7;
 ods path(prepend) work.TEMPLAT (update);
+libname BINGO 'C:\Users\gonza\Desktop\GitHub\SASsy_Bingo\Data';
 /************************************************************************/
 /*** END SECTION TO INITIALIZE ALL MACRO VARIABLES AND DEFINE FORMATS ***/
 /************************************************************************/
@@ -37,16 +38,16 @@ ods path(prepend) work.TEMPLAT (update);
 /*** BEGIN SECTION TO READ IN DATA USED FOR RANDOM SELECTION FOR CARDS  ***/
 /**************************************************************************/
 /* read in the list of bingo text options */
-libname bingo xlsx "&path.\Programs\&bingo_file";
+libname bingoxls xlsx "&path.\Data\&bingo_file";
 data bingo (drop = things_you_hear_or_see_on_a_call);
-   set bingo."&bingo_sheet"n;
+   set bingoxls."&bingo_sheet"n;
 
    /* format the text so it will display accurately */
    bingo_text = strip(things_you_hear_or_see_on_a_call);
 
    bt_len = length(bingo_text);
 run;
-libname bingo clear;
+libname bingoxls clear;
 
 /* determine the number of possible splits based on the max length of all values */
 proc sql noprint;
@@ -86,22 +87,6 @@ run;
 /**********************************************************************/
 /*** END SECTION TO DEFINE GRAPH TEMPLATE FOR BINGO CARDS WITH TEXT ***/
 /**********************************************************************/
-
-/******************************************************************************/
-/*** BEGIN SECTION TO CREATE AN ATTRIBUTE MAP TO MAKE TEXT DIFFERENT COLORS ***/
-/******************************************************************************/
-data textclr (drop = i);
-   ID = 'TXTCLR';
-   array clrs(5) $20 _TEMPORARY_ ('deeppink' 'lightseagreen' 'blueviolet' 'darkturquoise' 'mediumvioletred');
-   do i = 1 to 5;
-      VALUE = cats(i);
-      TEXTCOLOR = clrs(i);
-      output;
-   end;
-run;
-/****************************************************************************/
-/*** END SECTION TO CREATE AN ATTRIBUTE MAP TO MAKE TEXT DIFFERENT COLORS ***/
-/****************************************************************************/
 
 /**************************************************************************/
 /*** BEGIN SECTION TO SELECT TEXT FOR BINGO CARDS AND RENDER BINGO CARDS***/
@@ -207,8 +192,8 @@ run;
       title "^S = {preimage=""&path.\images\&hdrimg"" }";
 
       proc sgrender data = bingo&i. template = bingo
-                dattrmap = textclr;
-         dattrvar grp = 'TXTCLR';
+                dattrmap = BINGO.BINGOATTR;
+         dattrvar grp = 'TXTCLRB';
       run;
       ods &ext close;
    %end;
