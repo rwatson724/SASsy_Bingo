@@ -21,7 +21,7 @@ Modifier:
 %let hdrimg = bbb_resized_v2.png;
 %let bingo_file = Conference Call Bingo.xlsx;
 %let bingo_sheet = Bingo;
-%let font = 'AMT Albany';
+%let font = 'Helvetica';
 
 %let bingo_card = MyBingoCard;  /*** prefix used to name the bingo card ***/
 %let textlen = 15;

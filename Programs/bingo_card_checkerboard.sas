@@ -21,7 +21,7 @@ Modifier:
 %let hdrimg = bbb_resized_v2.png;
 %let bingo_file = Conference Call Bingo.xlsx;
 %let bingo_sheet = Bingo;
-%let font = 'AMT Albany';
+%let font = 'Helvetica';
 
 %let bingo_card = MyBingoCard_checkerboard;  /*** prefix used to name the bingo card ***/
 %let textlen = 15;
@@ -182,7 +182,7 @@ run;
       /* render each bingo card */
       options nodate nonumber;
       ods graphics on / width = 6.5in height = 7in;
-      ods &ext file = "&path.\cards\&bingo_card._&i._m7.&ext"
+      ods &ext file = "&path.\cards\&bingo_card._&i..&ext"
               %if &ext = pdf %then dpi ; %else image_dpi; = 300;
 
       ods escapechar = "^";
